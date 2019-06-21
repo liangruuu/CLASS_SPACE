@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="/favicon.ico">
+  <title>Jumbotron Template for Bootstrap</title>
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="css/jumbotron.css" rel="stylesheet">
+  <style>
+    body {
+      padding-top: 100px;
+    }
+
+    #yonghumingcunzai {
+      margin-top: 10px;
+      display: none;
+    }
+
+    #bunengweikong {
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <%include header.ejs%>
+  <div class="container">
+    <h1>注册</h1>
+    <div class="row col-lg-6">
+      <!-- Example row of columns -->
+      <form>
+        <div class="form-group">
+          <label for="exampleInputEmail1">用户名</label>
+          <input type="text" class="form-control" id="username" placeholder="用户名">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">密码</label>
+          <input type="password" class="form-control" id="password" placeholder="密码">
+        </div>
+        <button type="button" class="btn btn-default" id='regist'>注册</button>
+      </form>
+      <div class="alert alert-danger" role="alert" id='yonghumingcunzai'>
+        注册失败，该用户名被占用
+      </div>
+      <div class="alert alert-danger" role="alert" id='bunengweikong'>
+        注册失败，账号或密码不能为空
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; 2016 Company, Inc.</p>
+      </footer>
+    </div>
+  </div>
+
+  <script src="/js/jquery-1.11.3.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script>
+    $('input').focus(function () {
+      $('#yonghumingcunzai').fadeOut()
+      $('#bunengweikong').fadeOut()
+    })
+
+    $('#regist').click(function () {
+      $.post('/doregist', {
+        "username": $('#username').val(),
+        "password": $('#password').val()
+      }, function (result) {
+        if (result == '1') {
+          // 注册成功
+          alert('注册成功！')
+          window.location = '/'
+        } else if (result == '-1') {
+          // 用户名被占用
+          $('#yonghumingcunzai').fadeIn()
+        } else if (result == '-4') {
+          $('#bunengweikong').fadeIn()
+        }
+      })
+    })
+  </script>
+</body>
+
+</html>
